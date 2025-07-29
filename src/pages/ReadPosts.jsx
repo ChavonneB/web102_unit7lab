@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react'
 import Card from '../components/Card'
+import { supabase } from '../client'
 
 const ReadPosts = (props) => {
 
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
-        setPosts(props.data)
-    }, [props])
+        const fetchPost = async () =>{
+            const {data}= await supabase
+                .from('Posts')
+                .select()
+
+                //set state of posts
+            setPosts(data)
+        }
+        fetchPost()
+    }, [])
     
     return (
         <div className="ReadPosts">
